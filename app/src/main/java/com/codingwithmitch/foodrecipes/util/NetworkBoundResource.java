@@ -71,6 +71,7 @@ public abstract class NetworkBoundResource<CacheObject, RequestObject> {
     // ensure cache data is new before emitting
     private void setValue(Resource<CacheObject> newValue){
 
+        // catch when user goes back and forth on same element
         if(results.getValue() != newValue){
             results.setValue(newValue);
         }
