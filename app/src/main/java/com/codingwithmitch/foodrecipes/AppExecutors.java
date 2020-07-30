@@ -29,7 +29,7 @@ public class AppExecutors {
     // getters
     public Executor diskIO(){ return mDiskIO; }
     public Executor mainThread(){ return mMainThreadExecutor; }
-    
+
     private static class MainThreadExecutor implements Executor {
 
         // get handle to main thread

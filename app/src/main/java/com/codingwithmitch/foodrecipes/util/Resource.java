@@ -4,11 +4,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * Generic class identifies status of cache and network requests as: success, error, loading.
+ * Data resource (cache or network) has a status (success, error, loading), data, and optional message.
  */
 public class Resource<T> {
 
-    public enum Status { SUCCESS, ERROR, LOADING}
+    public enum Status {SUCCESS, ERROR, LOADING}
 
     @NonNull
     public final Status status;

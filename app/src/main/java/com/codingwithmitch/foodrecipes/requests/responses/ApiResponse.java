@@ -5,7 +5,7 @@ import java.io.IOException;
 import retrofit2.Response;
 
 /**
- * Generic class handles all responses from Retrofit.
+ * Network response from Retrofit contains either success, success with error, success with empty data, or error.
  */
 public class ApiResponse<T> {
 
