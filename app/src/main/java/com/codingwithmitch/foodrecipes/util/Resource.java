@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
- * Generic class identifies status of network request as: success, error, loading.
+ * Generic class identifies status of cache and network requests as: success, error, loading.
  */
 public class Resource<T> {
 
