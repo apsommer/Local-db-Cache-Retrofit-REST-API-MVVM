@@ -44,22 +44,27 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
     private void subscribeObservers(){
 
         mRecipeListViewModel.getViewState().observe(this, new Observer<RecipeListViewModel.ViewState>() {
+
             @Override
             public void onChanged(@Nullable RecipeListViewModel.ViewState viewState) {
-                if(viewState != null){
-                    switch (viewState){
 
-                        case RECIPES:{
-                            // recipes will show automatically from other observer
-                            break;
-                        }
+                if (viewState == null) return;
 
-                        case CATEGORIES:{
-                            displaySearchCategories();
-                            break;
-                        }
+                switch (viewState){
+
+                    case RECIPES:{
+
+                        // recipes will show automatically from another observer
+                        break;
+                    }
+
+                    case CATEGORIES:{
+
+                        displaySearchCategories();
+                        break;
                     }
                 }
+
             }
         });
     }
@@ -67,8 +72,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
     private void displaySearchCategories(){
         mAdapter.displaySearchCategories();
     }
-
-
+    
     private void initRecyclerView(){
         mAdapter = new RecipeRecyclerAdapter(this);
         VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(30);

@@ -11,22 +11,25 @@ public class RecipeListViewModel extends AndroidViewModel {
 
     private static final String TAG = "RecipeListViewModel";
 
+    // common organizational pattern to determine proper recycler source
     public enum ViewState {CATEGORIES, RECIPES}
-
     private MutableLiveData<ViewState> viewState;
 
     public RecipeListViewModel(@NonNull Application application) {
         super(application);
-
         init();
     }
 
+    // recycler starts with categories
     private void init(){
+
         if(viewState == null){
             viewState = new MutableLiveData<>();
             viewState.setValue(ViewState.CATEGORIES);
         }
     }
+
+    // expose view state
     public LiveData<ViewState> getViewState() {
         return viewState;
     }
