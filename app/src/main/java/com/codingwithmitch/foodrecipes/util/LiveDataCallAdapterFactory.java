@@ -12,7 +12,8 @@ import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
 
 /**
- * Factory class is needed for Retrofit instance builder.
+ * Factory class is needed for Retrofit instance builder. All these checks are overkill, we will
+ * only ever pass correct objects. :/
  */
 public class LiveDataCallAdapterFactory extends CallAdapter.Factory {
 

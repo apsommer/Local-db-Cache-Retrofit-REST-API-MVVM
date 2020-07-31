@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.codingwithmitch.foodrecipes.AppExecutors;
 import com.codingwithmitch.foodrecipes.models.Recipe;
@@ -18,6 +19,8 @@ import com.codingwithmitch.foodrecipes.util.Resource;
 import java.util.List;
 
 public class RecipeRepository {
+
+    private static final String TAG = "RecipeRepository";
 
     private static RecipeRepository instance;
     private RecipeDao recipeDao;
@@ -42,6 +45,32 @@ public class RecipeRepository {
 
             @Override
             public void saveCallResult(@NonNull RecipeSearchResponse item) {
+
+                // null if api key is expired, etc
+                if (item.getRecipes() == null) return;
+
+                // create array from list
+                Recipe[] recipes = new Recipe[item.getRecipes().size()];
+
+                int index = 0;
+                for(long rowId: recipeDao.insertRecipes((Recipe[]) (item.getRecipes().toArray(recipes)))){
+
+                    // conflict defers to special insert method to avoid overwriting ingredients and timestamp
+                    if(rowId == -1) {
+
+                        Log.d(TAG, "saveCallResult: CONFLICT... This recipe is already in cache.");
+
+                        recipeDao.updateRecipe(
+                                recipes[index].getRecipe_id(),
+                                recipes[index].getTitle(),
+                                recipes[index].getPublisher(),
+                                recipes[index].getImage_url(),
+                                recipes[index].getSocial_rank()
+                        );
+                    }
+                    
+                    index++;
+                }
 
             }
 
