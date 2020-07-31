@@ -25,7 +25,8 @@ public abstract class RecipeDatabase extends RoomDatabase {
                     DATABASE_NAME
             ).build();
         }
-
         return instance;
     }
+
+    public abstract RecipeDao getRecipeDao();
 }
