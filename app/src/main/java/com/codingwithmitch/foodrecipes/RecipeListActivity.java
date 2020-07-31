@@ -9,12 +9,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 
 import com.codingwithmitch.foodrecipes.adapters.OnRecipeListener;
 import com.codingwithmitch.foodrecipes.adapters.RecipeRecyclerAdapter;
+import com.codingwithmitch.foodrecipes.models.Recipe;
+import com.codingwithmitch.foodrecipes.util.Resource;
+import com.codingwithmitch.foodrecipes.util.Testing;
 import com.codingwithmitch.foodrecipes.util.VerticalSpacingItemDecorator;
 import com.codingwithmitch.foodrecipes.viewmodels.RecipeListViewModel;
+
+import java.util.List;
 
 
 public class RecipeListActivity extends BaseActivity implements OnRecipeListener {
@@ -43,6 +49,22 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
 
     private void subscribeObservers(){
 
+        mRecipeListViewModel.getRecipes().observe(this, new Observer<Resource<List<Recipe>>>() {
+
+            @Override
+            public void onChanged(@Nullable Resource<List<Recipe>> listResource) {
+
+                if (listResource == null) return;
+
+                Log.d(TAG, "onChanged: status: " + listResource.status);
+
+                if(listResource.data != null){
+                    Testing.printRecipes(listResource.data, "data: ");
+                }
+
+            }
+        });
+
         mRecipeListViewModel.getViewState().observe(this, new Observer<RecipeListViewModel.ViewState>() {
 
             @Override
@@ -69,6 +91,11 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         });
     }
 
+    private void searchRecipeApi(String query){
+        mRecipeListViewModel.searchRecipesApi(query, 1);
+    }
+
+
     private void displaySearchCategories(){
         mAdapter.displaySearchCategories();
     }
@@ -86,7 +113,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
             @Override
             public boolean onQueryTextSubmit(String s) {
 
-
+                searchRecipeApi(s);
                 return false;
             }
 
@@ -106,7 +133,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
 
     @Override
     public void onCategoryClick(String category) {
-        
+        searchRecipeApi(category);
     }
 
 }

@@ -26,7 +26,6 @@ public class RecipeActivity extends BaseActivity {
 
     private RecipeViewModel mRecipeViewModel;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
